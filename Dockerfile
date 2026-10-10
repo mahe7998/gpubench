@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends g++ make git ca
  && rm -rf /var/lib/apt/lists/*
 RUN git clone --depth 1 https://github.com/ProjectPhysX/OpenCL-Benchmark.git /src
 WORKDIR /src
-RUN mkdir -p bin && g++ -std=c++17 -O2 -pthread -I./src ./src/*.cpp -o bin/OpenCL-Benchmark -lOpenCL
+RUN mkdir -p bin && g++ src/*.cpp -o bin/OpenCL-Benchmark -std=c++17 -pthread -O -Wno-comment -I./src/OpenCL/include -L./src/OpenCL/lib -lOpenCL
 
 FROM nvidia/cuda:12.6.3-base-ubuntu24.04
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
