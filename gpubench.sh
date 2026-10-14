@@ -8,6 +8,12 @@ GPU=$(printf '%s\n' "$OUT" | grep 'Device Name' | head -1 | sed -E 's/^\| *Devic
 FP32=$(printf '%s\n' "$OUT" | grep -E 'FP32 +Compute' | head -1 | sed -E 's/.*\) *([0-9.]+) *TFLOPs\/s.*/\1/')
 INT8=$(printf '%s\n' "$OUT" | grep -E 'INT8 +Compute' | head -1 | sed -E 's/.*\) *([0-9.]+) *TIOPs\/s.*/\1/')
 if [ -z "$GPU" ] || [ -z "$FP32" ]; then
+  # No NVIDIA OpenCL (Docker Desktop on Windows, WSL2): measure with cuBLAS instead.
+  CUDA=$(cudabench 2>/dev/null)
+  if [ -n "$CUDA" ]; then
+    echo "$HOST $CUDA"
+    exit 0
+  fi
   echo "gpubench: no OpenCL GPU found" >&2
   printf '%s\n' "$OUT" | tail -20 >&2
   echo "$HOST none 0 0"
