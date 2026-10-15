@@ -11,7 +11,7 @@ WORKDIR /src
 RUN mkdir -p bin && g++ src/*.cpp -o bin/OpenCL-Benchmark -std=c++17 -pthread -O -Wno-comment -I./src/OpenCL/include -L./src/OpenCL/lib -lOpenCL
 # cuBLAS GEMMs: the measurement used on every host.
 COPY cudabench.cu /tmp/cudabench.cu
-RUN nvcc -O2 -o /src/bin/cudabench /tmp/cudabench.cu -lcublas \
+RUN nvcc -O2 -o /src/bin/cudabench /tmp/cudabench.cu -lcublas -lcublasLt \
     -gencode arch=compute_75,code=sm_75 -gencode arch=compute_86,code=sm_86 -gencode arch=compute_89,code=sm_89 \
     -gencode arch=compute_90,code=sm_90 -gencode arch=compute_120,code=sm_120 -gencode arch=compute_120,code=compute_120
 

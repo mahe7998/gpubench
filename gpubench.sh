@@ -1,5 +1,5 @@
 #!/bin/sh
-# Prints ONE line: <host> <gpu-name> <fp32 TFLOPs/s> <int8 TOPs/s>
+# Prints ONE line: <host> <gpu-name> <fp32> <int8> <fp64> <tf32> <fp16> <bf16> <fp8> <fp4> <int4> <formats>  (T(FL)OPS, 0 = unsupported)
 # Both numbers come from cuBLAS GEMMs (cudabench) on every machine, so the rows are comparable:
 # FP32 = cublasSgemm on the CUDA cores (pedantic math, no TF32), INT8 = cublasGemmEx INT8->INT32 on the tensor cores.
 # The GPU name has its spaces replaced by '-' so the line always splits into exactly 4 fields.
